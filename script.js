@@ -2,6 +2,7 @@
  * =========================================================================
  * SYNEX 2026 — 12-HOUR HACKATHON CORE SCRIPTS
  * Organizer: SIMATS Engineering AI Club (Saveetha School of Engineering)
+ * Visuals: Luminous Cyber Ambient 3D Rig (ByteBlaze-grade additive glow)
  * =========================================================================
  */
 
@@ -10,11 +11,9 @@
 // =========================================================================
 const SYNEX_CONFIG = {
   // Hackathon Target Date (YYYY-MM-DDTHH:MM:SS)
-  // Defaults to 14 days from current date for an active countdown:
   eventDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
 
-  // Optional Webhook URL (e.g., Google Sheet, Discord Webhook, or Cloud Function)
-  // When empty, registrations are safely saved locally to browser storage.
+  // Optional Webhook URL (Google Sheet / Webhook endpoint)
   registrationWebhookUrl: "",
 
   // Social and College Club Channels:
@@ -54,7 +53,6 @@ function showToast(message, duration = 3500) {
   toast.textContent = message;
   container.appendChild(toast);
 
-  // Trigger animation
   requestAnimationFrame(() => toast.classList.add("show"));
 
   setTimeout(() => {
@@ -72,7 +70,6 @@ function initNavigation() {
   const navMenu = document.getElementById("nav-menu");
   const navLinks = document.querySelectorAll(".nav-link, .btn-nav");
 
-  // Sticky header blur effect on scroll
   window.addEventListener("scroll", () => {
     if (window.scrollY > 30) {
       header.classList.add("header-scrolled");
@@ -81,14 +78,12 @@ function initNavigation() {
     }
   }, { passive: true });
 
-  // Mobile menu toggle
   if (navToggle && navMenu) {
     navToggle.addEventListener("click", () => {
       const isOpen = navMenu.classList.toggle("is-open");
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
 
-    // Close menu when clicking nav links
     navLinks.forEach(link => {
       link.addEventListener("click", () => {
         if (navMenu.classList.contains("is-open")) {
@@ -98,7 +93,6 @@ function initNavigation() {
       });
     });
 
-    // Close when clicking outside
     document.addEventListener("click", (e) => {
       if (!navMenu.contains(e.target) && !navToggle.contains(e.target) && navMenu.classList.contains("is-open")) {
         navMenu.classList.remove("is-open");
@@ -150,7 +144,7 @@ function initScrollSpy() {
   if (!sections.length || !navLinks.length) return;
 
   function onScroll() {
-    const scrollPos = window.scrollY + 120;
+    const scrollPos = window.scrollY + 140;
 
     sections.forEach(section => {
       const top = section.offsetTop;
@@ -186,7 +180,6 @@ function initFAQAccordion() {
       const isExpanded = trigger.getAttribute("aria-expanded") === "true";
       const panel = document.getElementById(trigger.getAttribute("aria-controls"));
 
-      // Collapse all others
       triggers.forEach(other => {
         if (other !== trigger) {
           other.setAttribute("aria-expanded", "false");
@@ -195,7 +188,6 @@ function initFAQAccordion() {
         }
       });
 
-      // Toggle current
       trigger.setAttribute("aria-expanded", isExpanded ? "false" : "true");
       if (panel) {
         panel.hidden = isExpanded;
@@ -205,7 +197,7 @@ function initFAQAccordion() {
 }
 
 // =========================================================================
-// 8. AMBIENT 3D KINETIC BACKGROUND RIG (THREE.JS)
+// 8. BRIGHT & LUMINOUS 3D KINETIC BACKGROUND (BYTEBLAZE-STYLE ADDITIVE GLOW)
 // =========================================================================
 function initAmbientBackground() {
   const canvas = document.getElementById("synex-bg-canvas");
@@ -214,14 +206,13 @@ function initAmbientBackground() {
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  // Scene & Camera
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x030712, 0.045);
+  // Slightly lighter fog so background elements remain luminous
+  scene.fog = new THREE.FogExp2(0x080C16, 0.035);
 
-  const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
-  camera.position.set(0, 0, 14);
+  const camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100);
+  camera.position.set(0, 0, 11);
 
-  // Renderer
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
@@ -233,80 +224,119 @@ function initAmbientBackground() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   } catch (e) {
-    console.warn("WebGL initialization failed, disabling 3D ambient rig:", e);
+    console.warn("WebGL initialization failed:", e);
     return;
   }
 
-  // Master Group
-  const masterRig = new THREE.Group();
-  scene.add(masterRig);
+  // Create soft circular glow texture for glowing particles
+  const circleTexture = (function() {
+    const c = document.createElement("canvas");
+    c.width = 32;
+    c.height = 32;
+    const ctx = c.getContext("2d");
+    const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+    grad.addColorStop(0.3, "rgba(255, 255, 255, 0.85)");
+    grad.addColorStop(0.7, "rgba(255, 255, 255, 0.2)");
+    grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 32, 32);
+    return new THREE.CanvasTexture(c);
+  })();
 
-  // Materials
-  const matCyan = new THREE.MeshBasicMaterial({ color: 0x06B6D4, wireframe: true, transparent: true, opacity: 0.35 });
-  const matIndigo = new THREE.MeshBasicMaterial({ color: 0x6366F1, wireframe: true, transparent: true, opacity: 0.45 });
-  const matOrange = new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.55 });
+  // 1. Constellation Particle Cloud (600 glowing particles)
+  const particlesCount = 600;
+  const positions = new Float32Array(particlesCount * 3);
+  const colors = new Float32Array(particlesCount * 3);
+  const speeds = [];
 
-  // 1. Core Icosahedron Wireframe
-  const geomIcosa = new THREE.IcosahedronGeometry(4.5, 1);
-  const meshIcosa = new THREE.Mesh(geomIcosa, matCyan);
-  masterRig.add(meshIcosa);
+  const colBlue = new THREE.Color("#00F0FF");
+  const colOrange = new THREE.Color("#FF5E00");
+  const colPurple = new THREE.Color("#A855F7");
 
-  // 2. Concentric Gimbal Torus
-  const geomTorus1 = new THREE.TorusGeometry(6.2, 0.04, 16, 100);
-  const ring1 = new THREE.Mesh(geomTorus1, matIndigo);
-  ring1.rotation.x = Math.PI * 0.35;
-  masterRig.add(ring1);
+  for (let i = 0; i < particlesCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 26;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 26;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
 
-  const geomTorus2 = new THREE.TorusGeometry(3.2, 0.035, 16, 80);
-  const ring2 = new THREE.Mesh(geomTorus2, matOrange);
-  ring2.rotation.y = Math.PI * 0.45;
-  masterRig.add(ring2);
+    const rand = Math.random();
+    const chosen = rand < 0.5 ? colBlue : rand < 0.8 ? colOrange : colPurple;
+    colors[i * 3] = chosen.r;
+    colors[i * 3 + 1] = chosen.g;
+    colors[i * 3 + 2] = chosen.b;
 
-  // 3. Central Kinetic Octahedron
-  const geomOcta = new THREE.OctahedronGeometry(1.6, 0);
-  const meshOcta = new THREE.Mesh(geomOcta, matOrange);
-  masterRig.add(meshOcta);
-
-  // 4. Ambient Constellation Particle Cloud
-  const particleCount = 380;
-  const partGeom = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
-
-  const c1 = new THREE.Color(0x06B6D4);
-  const c2 = new THREE.Color(0x6366F1);
-  const c3 = new THREE.Color(0xF97316);
-
-  for (let i = 0; i < particleCount; i++) {
-    const radius = 6.0 + Math.random() * 12.0;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
-
-    positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-    positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-    positions[i * 3 + 2] = radius * Math.cos(phi);
-
-    const pick = Math.random();
-    const chosenColor = pick < 0.5 ? c1 : pick < 0.85 ? c2 : c3;
-    colors[i * 3] = chosenColor.r;
-    colors[i * 3 + 1] = chosenColor.g;
-    colors[i * 3 + 2] = chosenColor.b;
+    speeds.push({
+      x: (Math.random() - 0.5) * 0.003,
+      y: (Math.random() - 0.5) * 0.003,
+      z: (Math.random() - 0.5) * 0.003
+    });
   }
 
-  partGeom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  partGeom.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+  const particleGeom = new THREE.BufferGeometry();
+  particleGeom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  particleGeom.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-  const partMat = new THREE.PointsMaterial({
-    size: 0.14,
+  const particleMat = new THREE.PointsMaterial({
+    size: 0.18,
     vertexColors: true,
     transparent: true,
-    opacity: 0.75
+    opacity: 0.9,
+    map: circleTexture,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
   });
 
-  const particleSystem = new THREE.Points(partGeom, partMat);
+  const particleSystem = new THREE.Points(particleGeom, particleMat);
   scene.add(particleSystem);
 
-  // Interactive Mouse Parallax
+  // 2. Central Kinetic Geometric Rig (Dodecahedron + Concentric Rings)
+  const coreGroup = new THREE.Group();
+  scene.add(coreGroup);
+
+  // Dodecahedron Outer Core
+  const dodecaGeom = new THREE.DodecahedronGeometry(3.6, 0);
+  const dodecaMat = new THREE.MeshBasicMaterial({
+    color: 0x00F0FF,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.45
+  });
+  const dodecaMesh = new THREE.Mesh(dodecaGeom, dodecaMat);
+  coreGroup.add(dodecaMesh);
+
+  // Inner Kinetic Octahedron
+  const octaGeom = new THREE.OctahedronGeometry(1.8, 0);
+  const octaMat = new THREE.MeshBasicMaterial({
+    color: 0xFF5E00,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.65
+  });
+  const octaMesh = new THREE.Mesh(octaGeom, octaMat);
+  coreGroup.add(octaMesh);
+
+  // Orbital Gimbal Rings
+  const ring1Geom = new THREE.TorusGeometry(5.2, 0.035, 16, 90);
+  const ring1Mat = new THREE.MeshBasicMaterial({
+    color: 0x6366F1,
+    transparent: true,
+    opacity: 0.5
+  });
+  const ring1 = new THREE.Mesh(ring1Geom, ring1Mat);
+  ring1.rotation.x = Math.PI * 0.35;
+  coreGroup.add(ring1);
+
+  const ring2Geom = new THREE.TorusGeometry(4.2, 0.03, 16, 80);
+  const ring2Mat = new THREE.MeshBasicMaterial({
+    color: 0xFF5E00,
+    transparent: true,
+    opacity: 0.55
+  });
+  const ring2 = new THREE.Mesh(ring2Geom, ring2Mat);
+  ring2.rotation.y = Math.PI * 0.45;
+  coreGroup.add(ring2);
+
+  // Mouse Parallax
   let mouseX = 0;
   let mouseY = 0;
   let targetX = 0;
@@ -317,7 +347,7 @@ function initAmbientBackground() {
     mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
   }, { passive: true });
 
-  // Scroll Reactive Physics
+  // Scroll Momentum
   let scrollSpeed = 0;
   let lastScrollY = window.scrollY;
 
@@ -327,7 +357,7 @@ function initAmbientBackground() {
     lastScrollY = currentY;
   }, { passive: true });
 
-  // Resize Handler
+  // Resize Listener
   window.addEventListener("resize", () => {
     width = window.innerWidth;
     height = window.innerHeight;
@@ -337,31 +367,45 @@ function initAmbientBackground() {
   }, { passive: true });
 
   // Animation Loop
-  let clock = new THREE.Clock();
+  const clock = new THREE.Clock();
 
   function animate() {
     requestAnimationFrame(animate);
 
     const delta = clock.getDelta();
 
-    // Smooth mouse lerping
-    targetX += (mouseX * 0.8 - targetX) * 0.05;
-    targetY += (mouseY * 0.6 - targetY) * 0.05;
+    // Lerp mouse follow
+    targetX += (mouseX * 0.9 - targetX) * 0.05;
+    targetY += (mouseY * 0.7 - targetY) * 0.05;
 
-    // Rotate kinetic elements
-    masterRig.rotation.y += 0.12 * delta + scrollSpeed * 0.2;
-    masterRig.rotation.x += 0.06 * delta;
-    masterRig.position.x = targetX * 1.5;
-    masterRig.position.y = targetY * 1.2;
+    coreGroup.position.x = targetX * 1.6;
+    coreGroup.position.y = targetY * 1.3;
 
-    ring1.rotation.z += 0.18 * delta;
+    // Rotations
+    coreGroup.rotation.y += 0.15 * delta + scrollSpeed * 0.25;
+    coreGroup.rotation.x += 0.08 * delta;
+
+    dodecaMesh.rotation.y -= 0.1 * delta;
+    octaMesh.rotation.x += 0.25 * delta;
+    ring1.rotation.z += 0.2 * delta;
     ring2.rotation.x -= 0.22 * delta;
-    meshOcta.rotation.y -= 0.35 * delta;
 
-    particleSystem.rotation.y -= 0.03 * delta;
-    particleSystem.rotation.x += 0.015 * delta;
+    // Float particles
+    const posArr = particleGeom.attributes.position.array;
+    for (let i = 0; i < particlesCount; i++) {
+      posArr[i * 3 + 1] += speeds[i].y;
+      posArr[i * 3] += speeds[i].x;
 
-    // Decay scroll momentum
+      if (posArr[i * 3 + 1] > 13) posArr[i * 3 + 1] = -13;
+      if (posArr[i * 3 + 1] < -13) posArr[i * 3 + 1] = 13;
+      if (posArr[i * 3] > 13) posArr[i * 3] = -13;
+      if (posArr[i * 3] < -13) posArr[i * 3] = 13;
+    }
+    particleGeom.attributes.position.needsUpdate = true;
+
+    particleSystem.rotation.y += 0.02 * delta;
+    particleSystem.rotation.x += 0.01 * delta;
+
     scrollSpeed *= 0.92;
 
     renderer.render(scene, camera);
@@ -388,15 +432,12 @@ function initRegistrationForm() {
 
   if (!form || !teamSizeSelect) return;
 
-  // Handle Team Size changes (2, 3, or 4 members)
   function adjustMemberInputs() {
     const size = parseInt(teamSizeSelect.value, 10);
 
-    // Member 2 is always visible
     cardM2.style.display = "block";
     setCardRequired(cardM2, true);
 
-    // Member 3
     if (size >= 3) {
       cardM3.style.display = "block";
       setCardRequired(cardM3, true);
@@ -405,7 +446,6 @@ function initRegistrationForm() {
       setCardRequired(cardM3, false);
     }
 
-    // Member 4
     if (size >= 4) {
       cardM4.style.display = "block";
       setCardRequired(cardM4, true);
@@ -429,74 +469,35 @@ function initRegistrationForm() {
   }
 
   teamSizeSelect.addEventListener("change", adjustMemberInputs);
-  adjustMemberInputs(); // initial setup
+  adjustMemberInputs();
 
-  // Form Validation & Submission
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     let isValid = true;
-
-    // Validate Team Name
-    const teamName = document.getElementById("teamName");
-    if (!teamName.value.trim()) {
-      showFieldError("teamName", true);
-      isValid = false;
-    } else {
-      showFieldError("teamName", false);
-    }
-
-    // Validate Track
-    const trackSelect = document.getElementById("trackSelect");
-    if (!trackSelect.value) {
-      showFieldError("trackSelect", true);
-      isValid = false;
-    } else {
-      showFieldError("trackSelect", false);
-    }
-
-    // Validate Lead Name
-    const leadName = document.getElementById("leadName");
-    if (!leadName.value.trim()) {
-      showFieldError("leadName", true);
-      isValid = false;
-    } else {
-      showFieldError("leadName", false);
-    }
-
-    // Validate Lead Email
-    const leadEmail = document.getElementById("leadEmail");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(leadEmail.value.trim())) {
-      showFieldError("leadEmail", true);
-      isValid = false;
-    } else {
-      showFieldError("leadEmail", false);
-    }
 
-    // Validate Lead Phone
+    const teamName = document.getElementById("teamName");
+    if (!teamName.value.trim()) { showFieldError("teamName", true); isValid = false; } else showFieldError("teamName", false);
+
+    const trackSelect = document.getElementById("trackSelect");
+    if (!trackSelect.value) { showFieldError("trackSelect", true); isValid = false; } else showFieldError("trackSelect", false);
+
+    const leadName = document.getElementById("leadName");
+    if (!leadName.value.trim()) { showFieldError("leadName", true); isValid = false; } else showFieldError("leadName", false);
+
+    const leadEmail = document.getElementById("leadEmail");
+    if (!emailRegex.test(leadEmail.value.trim())) { showFieldError("leadEmail", true); isValid = false; } else showFieldError("leadEmail", false);
+
     const leadPhone = document.getElementById("leadPhone");
     const digitsOnly = leadPhone.value.replace(/\D/g, "");
-    if (digitsOnly.length < 10) {
-      showFieldError("leadPhone", true);
-      isValid = false;
-    } else {
-      showFieldError("leadPhone", false);
-    }
+    if (digitsOnly.length < 10) { showFieldError("leadPhone", true); isValid = false; } else showFieldError("leadPhone", false);
 
-    // Validate Lead Dept & Year
     const leadDeptYear = document.getElementById("leadDeptYear");
-    if (!leadDeptYear.value.trim()) {
-      showFieldError("leadDeptYear", true);
-      isValid = false;
-    } else {
-      showFieldError("leadDeptYear", false);
-    }
+    if (!leadDeptYear.value.trim()) { showFieldError("leadDeptYear", true); isValid = false; } else showFieldError("leadDeptYear", false);
 
-    // Validate Teammates (visible ones)
     const size = parseInt(teamSizeSelect.value, 10);
 
-    // M2
     const m2Name = document.getElementById("m2Name");
     const m2Email = document.getElementById("m2Email");
     const m2DeptYear = document.getElementById("m2DeptYear");
@@ -504,7 +505,6 @@ function initRegistrationForm() {
     if (!emailRegex.test(m2Email.value.trim())) { showFieldError("m2Email", true); isValid = false; } else showFieldError("m2Email", false);
     if (!m2DeptYear.value.trim()) { showFieldError("m2DeptYear", true); isValid = false; } else showFieldError("m2DeptYear", false);
 
-    // M3
     if (size >= 3) {
       const m3Name = document.getElementById("m3Name");
       const m3Email = document.getElementById("m3Email");
@@ -514,7 +514,6 @@ function initRegistrationForm() {
       if (!m3DeptYear.value.trim()) { showFieldError("m3DeptYear", true); isValid = false; } else showFieldError("m3DeptYear", false);
     }
 
-    // M4
     if (size >= 4) {
       const m4Name = document.getElementById("m4Name");
       const m4Email = document.getElementById("m4Email");
@@ -524,7 +523,6 @@ function initRegistrationForm() {
       if (!m4DeptYear.value.trim()) { showFieldError("m4DeptYear", true); isValid = false; } else showFieldError("m4DeptYear", false);
     }
 
-    // Validate Rules Agreement
     const rulesAgreed = document.getElementById("rulesAgreed");
     const errorRules = document.getElementById("error-rulesAgreed");
     if (!rulesAgreed.checked) {
@@ -539,7 +537,6 @@ function initRegistrationForm() {
       return;
     }
 
-    // Submit Action
     btnSubmit.classList.add("loading");
 
     const voucherId = "SYNEX-" + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -579,7 +576,6 @@ function initRegistrationForm() {
       });
     }
 
-    // Save to LocalStorage as safe ledger
     try {
       const existing = JSON.parse(localStorage.getItem("synex_hackathon_registrations") || "[]");
       existing.push(submissionData);
@@ -588,7 +584,6 @@ function initRegistrationForm() {
       console.warn("LocalStorage save error:", err);
     }
 
-    // Optional Webhook dispatch
     if (SYNEX_CONFIG.registrationWebhookUrl) {
       fetch(SYNEX_CONFIG.registrationWebhookUrl, {
         method: "POST",
@@ -597,13 +592,11 @@ function initRegistrationForm() {
       }).catch(err => console.warn("Webhook dispatch error:", err));
     }
 
-    // Simulate short network transmission delay for polish
     setTimeout(() => {
       btnSubmit.classList.remove("loading");
       form.hidden = true;
       successCard.hidden = false;
 
-      // Render Receipt
       receiptDetails.innerHTML = `
         <div class="receipt-row">
           <span class="receipt-label">VOUCHER ID:</span>
@@ -653,14 +646,12 @@ function initRegistrationForm() {
     }
   }
 
-  // Print Receipt Button
   if (btnPrint) {
     btnPrint.addEventListener("click", () => {
       window.print();
     });
   }
 
-  // Register Another Team Button
   if (btnRegisterAnother) {
     btnRegisterAnother.addEventListener("click", () => {
       form.reset();

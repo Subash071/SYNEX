@@ -4,26 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="SYNEX 2026 — 12-Hour Flagship AI Hackathon organized by SIMATS Engineering AI Club at Saveetha School of Engineering, Saveetha University, Chennai. Register your team now.">
-  <meta name="theme-color" content="#030712">
+  <meta name="theme-color" content="#070B14">
   <title>SYNEX 2026 // 12-Hour AI Hackathon — SIMATS Engineering AI Club</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="icon" type="image/jpeg" href="images/club-logo.jpg">
 
-  <!-- Google Fonts: Space Grotesk & Inter -->
+  <!-- Google Fonts: Space Grotesk, Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Three.js (CDN for Ambient 3D Background Rig) -->
+  <!-- Three.js CDN for Ambient 3D Background Rig -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <!-- Core Dark Theme Stylesheet -->
+  <!-- Core Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
-  <!-- Full-Page Spatial 3D Kinetic Background Canvas -->
+  <!-- Radiant Ambient Background Glow Overlays -->
+  <div class="ambient-glow-top" aria-hidden="true"></div>
+  <div class="ambient-glow-center" aria-hidden="true"></div>
   <div class="canvas-vignette-overlay" aria-hidden="true"></div>
+
+  <!-- Full-Page Spatial 3D Kinetic Background Canvas -->
   <canvas id="synex-bg-canvas" class="bg-spatial-canvas" aria-hidden="true"></canvas>
 
   <!-- Accessibility Skip Link -->
@@ -35,10 +39,10 @@
   <header class="site-header" id="site-header">
     <div class="header-container">
       <a href="#hero" class="nav-brand" aria-label="SYNEX 2026 Home">
-        <img src="images/logo.png" alt="SYNEX Logo" class="nav-brand-logo" width="34" height="34">
+        <img src="images/club-logo.jpg" alt="SIMATS AI Club Logo" class="nav-brand-logo club-brand-img" width="38" height="38">
         <div class="brand-text">
           <span class="nav-brand-title">SYNEX <span class="brand-year">// 2026</span></span>
-          <span class="nav-brand-sub">SIMATS AI CLUB</span>
+          <span class="nav-brand-sub">SIMATS AI CLUB &bull; SSE</span>
         </div>
       </a>
 
@@ -49,6 +53,7 @@
           <li><a href="#tracks" class="nav-link">Tracks</a></li>
           <li><a href="#schedule" class="nav-link">12-Hr Schedule</a></li>
           <li><a href="#prizes" class="nav-link">Prizes</a></li>
+          <li><a href="#team" class="nav-link">Organizing Team</a></li>
           <li><a href="#rules" class="nav-link">Rules</a></li>
           <li><a href="#faq" class="nav-link">FAQ</a></li>
         </ul>
@@ -91,24 +96,59 @@
       <div class="container hero-container">
         
         <div class="hero-content">
-          <div class="hero-meta-badge">
-            <span class="badge-dot"></span>
-            <span class="badge-text">SIMATS ENGINEERING AI CLUB PRESENTS</span>
+
+          <!-- INSTITUTIONAL CO-BRANDING STRIP (CLUB LOGO + AT + COLLEGE/UNIVERSITY LOGO) -->
+          <div class="institutional-badge-strip">
+            <div class="inst-unit inst-club">
+              <div class="inst-logo-wrapper club-glow-ring">
+                <img src="images/club-logo.jpg" alt="SIMATS Engineering AI Club Official Logo" class="inst-logo club-logo">
+              </div>
+              <div class="inst-text">
+                <span class="inst-tag">ORGANIZED BY</span>
+                <span class="inst-primary-name">SIMATS AI CLUB</span>
+              </div>
+            </div>
+
+            <div class="inst-bridge">
+              <span class="bridge-line"></span>
+              <span class="bridge-at">AT</span>
+              <span class="bridge-line"></span>
+            </div>
+
+            <div class="inst-unit inst-college">
+              <div class="inst-logos-dual">
+                <div class="inst-logo-wrapper">
+                  <img src="images/sse-logo.png" alt="Saveetha School of Engineering Logo" class="inst-logo sse-logo">
+                </div>
+                <div class="inst-logo-wrapper">
+                  <img src="images/simats-logo.png" alt="SIMATS Deemed University Logo" class="inst-logo simats-logo">
+                </div>
+              </div>
+              <div class="inst-text">
+                <span class="inst-tag">HOSTED AT</span>
+                <span class="inst-primary-name">SAVEETHA ENGINEERING</span>
+                <span class="inst-secondary-name">SIMATS DEEMED UNIVERSITY, CHENNAI</span>
+              </div>
+            </div>
           </div>
 
-          <h1 class="hero-title" id="hero-title">
+          <!-- Hero Subtitle & Event Title -->
+          <p class="hero-subtitle-top neon-text-orange">12-HOUR FLAGSHIP AI HACKATHON</p>
+
+          <h1 class="hero-title neon-text-blue" id="hero-title">
             SYNEX <span class="gradient-text">// 2026</span>
-            <span class="hero-subtitle-block">12-HOUR FLAGSHIP HACKATHON</span>
           </h1>
 
+          <p class="hero-tagline">HACK &bull; BUILD &bull; SCALE</p>
+
           <p class="hero-lead">
-            Twelve hours of non-stop engineering, algorithmic reasoning, and neural systems development. Bring your ideas, form your squad, and build production-grade AI solutions live on campus.
+            Twelve hours of high-velocity engineering, algorithmic problem solving, and neural systems deployment. Compete with top builders to solve challenges in Generative AI, Spatial Computing, and Autonomous Intelligence live on campus.
           </p>
 
           <!-- Key Stats Quick Strip -->
           <div class="hero-stats-strip">
             <div class="stat-item">
-              <span class="stat-value">12 HRS</span>
+              <span class="stat-value neon-text-blue">12 HRS</span>
               <span class="stat-label">Non-Stop Sprint</span>
             </div>
             <div class="stat-divider"></div>
@@ -118,7 +158,7 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-              <span class="stat-value">2–4</span>
+              <span class="stat-value neon-text-orange">2–4</span>
               <span class="stat-label">Team Members</span>
             </div>
             <div class="stat-divider"></div>
@@ -132,26 +172,26 @@
           <div class="countdown-container" id="countdown-wrapper" role="region" aria-label="Event Countdown">
             <div class="countdown-header">
               <span class="terminal-prompt">&gt; SPRINT_KICKOFF_CLOCK:</span>
-              <span class="countdown-status">LIVE COUNTDOWN</span>
+              <span class="countdown-status neon-text-orange">LIVE COUNTDOWN</span>
             </div>
             <div class="countdown-grid">
               <div class="countdown-card">
-                <span class="countdown-num" id="cd-days">00</span>
+                <span class="countdown-num neon-text-blue" id="cd-days">00</span>
                 <span class="countdown-unit">DAYS</span>
               </div>
               <div class="countdown-colon">:</div>
               <div class="countdown-card">
-                <span class="countdown-num" id="cd-hours">12</span>
+                <span class="countdown-num neon-text-blue" id="cd-hours">12</span>
                 <span class="countdown-unit">HOURS</span>
               </div>
               <div class="countdown-colon">:</div>
               <div class="countdown-card">
-                <span class="countdown-num" id="cd-minutes">00</span>
+                <span class="countdown-num neon-text-blue" id="cd-minutes">00</span>
                 <span class="countdown-unit">MINS</span>
               </div>
               <div class="countdown-colon">:</div>
               <div class="countdown-card">
-                <span class="countdown-num" id="cd-seconds">00</span>
+                <span class="countdown-num neon-text-blue" id="cd-seconds">00</span>
                 <span class="countdown-unit">SECS</span>
               </div>
             </div>
@@ -170,12 +210,15 @@
               <span>Explore Tracks</span>
             </a>
             <a href="#schedule" class="btn btn-secondary btn-large">
-              <span>View 12-Hr Schedule</span>
+              <span>12-Hr Schedule</span>
+            </a>
+            <a href="#team" class="btn btn-secondary btn-large">
+              <span>Organizing Team</span>
             </a>
           </div>
 
           <div class="scroll-down-hint">
-            <span>Explore full event details &amp; register below</span>
+            <span>Scroll down to meet the team &amp; submit squad registration</span>
             <div class="mouse-icon">
               <div class="wheel"></div>
             </div>
@@ -189,8 +232,8 @@
     <section class="section about-section" id="about" aria-labelledby="about-title">
       <div class="container">
         <div class="section-badge">[ EVENT DIRECTIVE ]</div>
-        <h2 class="section-title" id="about-title">
-          Built for engineers who crave <span class="highlight-cyan">execution velocity</span>.
+        <h2 class="section-title neon-text-blue" id="about-title">
+          Built for engineers who crave execution velocity.
         </h2>
         <p class="section-subtitle">
           Organized by the **SIMATS Engineering AI Club** at Saveetha School of Engineering, SYNEX is a 12-hour crucible engineered to test real-world problem solving, code elegance, and deployment stamina under tight sprint constraints.
@@ -243,8 +286,8 @@
     <section class="section tracks-section" id="tracks" aria-labelledby="tracks-title">
       <div class="container">
         <div class="section-badge">[ HACKATHON ARENAS ]</div>
-        <h2 class="section-title" id="tracks-title">
-          Choose your <span class="highlight-cyan">problem domain</span>.
+        <h2 class="section-title neon-text-blue" id="tracks-title">
+          Choose your problem domain.
         </h2>
         <p class="section-subtitle">
           Teams can formulate solutions within one of our five curated engineering tracks or pitch an autonomous moonshot under Open Innovation.
@@ -313,7 +356,7 @@
 
           <!-- Track 5 -->
           <div class="track-card track-card-featured">
-            <div class="track-tag">TRACK 05 // MOONSHOT</div>
+            <div class="track-tag neon-text-orange">TRACK 05 // MOONSHOT</div>
             <h3 class="track-name">Open Innovation &amp; Deep Tech</h3>
             <p class="track-desc">
               Unrestricted problem statement. If you have an audacious student breakthrough combining AI with Web3, quantum simulation, or native mobile apps, build it here.
@@ -333,8 +376,8 @@
     <section class="section schedule-section" id="schedule" aria-labelledby="schedule-title">
       <div class="container">
         <div class="section-badge">[ 12-HOUR CHRONOLOGY ]</div>
-        <h2 class="section-title" id="schedule-title">
-          The 12-Hour <span class="highlight-cyan">Sprint Schedule</span>.
+        <h2 class="section-title neon-text-blue" id="schedule-title">
+          The 12-Hour Sprint Schedule.
         </h2>
         <p class="section-subtitle">
           Every minute counts. Here is the official chronological flow for the hackathon day on the SIMATS campus.
@@ -431,8 +474,8 @@
     <section class="section prizes-section" id="prizes" aria-labelledby="prizes-title">
       <div class="container">
         <div class="section-badge">[ REWARDS &amp; PERKS ]</div>
-        <h2 class="section-title" id="prizes-title">
-          Recognition for <span class="highlight-cyan">top builders</span>.
+        <h2 class="section-title neon-text-blue" id="prizes-title">
+          Recognition for top builders.
         </h2>
         <p class="section-subtitle">
           In addition to cash prizes and trophies, outstanding teams earn direct entry into SIMATS AI Club research cohorts and developer fellowships.
@@ -441,10 +484,10 @@
         <div class="prizes-grid">
           <!-- 1st Prize -->
           <div class="prize-card prize-champion">
-            <div class="prize-badge">1ST PLACE // CHAMPION</div>
+            <div class="prize-badge neon-text-orange">1ST PLACE // CHAMPION</div>
             <div class="prize-trophy">🏆</div>
             <h3 class="prize-rank">Winner Trophy &amp; Cash Award</h3>
-            <p class="prize-value">Top Honors + Cash Prize</p>
+            <p class="prize-value neon-text-blue">Top Honors + Cash Prize</p>
             <ul class="prize-perks">
               <li>Official Winner Trophy &amp; Merit Certificates</li>
               <li>SIMATS AI Club Core Research Fellowship</li>
@@ -455,10 +498,10 @@
 
           <!-- 2nd Prize -->
           <div class="prize-card">
-            <div class="prize-badge">2ND PLACE // RUNNER UP</div>
+            <div class="prize-badge neon-text-blue">2ND PLACE // RUNNER UP</div>
             <div class="prize-trophy">🥈</div>
             <h3 class="prize-rank">Runner-Up Award</h3>
-            <p class="prize-value">Podium Finish + Cash Prize</p>
+            <p class="prize-value neon-text-blue">Podium Finish + Cash Prize</p>
             <ul class="prize-perks">
               <li>Official Runner-Up Trophy &amp; Certificates</li>
               <li>Direct Invitation to Club Sprint Projects</li>
@@ -469,10 +512,10 @@
 
           <!-- Special Awards -->
           <div class="prize-card">
-            <div class="prize-badge">SPECIAL CATEGORY</div>
+            <div class="prize-badge neon-text-orange">SPECIAL CATEGORY</div>
             <div class="prize-trophy">⭐</div>
             <h3 class="prize-rank">Special Track Awards</h3>
-            <p class="prize-value">Innovation Honors</p>
+            <p class="prize-value neon-text-orange">Innovation Honors</p>
             <ul class="prize-perks">
               <li>Best All-Women Tech Team Award</li>
               <li>Best Freshman / First-Year Innovation</li>
@@ -500,12 +543,172 @@
       </div>
     </section>
 
+    <!-- =========================================================================
+         ORGANIZING TEAM SECTION (8 CORE LEADERSHIP PROFILE CARDS)
+         ========================================================================= -->
+    <section class="section team-section" id="team" aria-labelledby="team-title">
+      <div class="container">
+        <div class="section-badge">[ SQUAD ARCHITECTS ]</div>
+        <h2 class="section-title neon-text-blue" id="team-title">
+          Organizing Team &bull; Core Leads
+        </h2>
+        <p class="section-subtitle">
+          The student researchers, organizers, and engineers behind the SYNEX 12-Hour AI Hackathon at Saveetha School of Engineering.
+        </p>
+
+        <div class="team-grid">
+          <!-- 1. Club President -->
+          <div class="team-card card-glow-blue">
+            <div class="team-avatar-wrapper">
+              <img src="images/member-secretary.png" alt="Club President Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 01</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill neon-text-orange">CLUB PRESIDENT</span>
+              <h3 class="team-member-name">Subash G</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">President // Core Lead</p>
+              <div class="team-social-row">
+                <a href="https://github.com/Subash071" target="_blank" rel="noopener noreferrer" class="team-social-icon" aria-label="GitHub">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/simats_ai_club" target="_blank" rel="noopener noreferrer" class="team-social-icon" aria-label="Instagram">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Vice President (VP) -->
+          <div class="team-card card-glow-orange">
+            <div class="team-avatar-wrapper">
+              <img src="images/member-advisor.jpg" alt="Vice President Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 02</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill neon-text-blue">VICE PRESIDENT</span>
+              <h3 class="team-member-name">Sandeep Yadav</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">Vice President // Operations</p>
+              <div class="team-social-row">
+                <a href="https://github.com/sandeep-yadav0419" target="_blank" rel="noopener noreferrer" class="team-social-icon" aria-label="GitHub">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Secretary -->
+          <div class="team-card">
+            <div class="team-avatar-wrapper">
+              <img src="images/IMG-20260731-WA0004.jpg" alt="Secretary Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 03</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill">SECRETARY</span>
+              <h3 class="team-member-name">Core Secretary</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">General Secretary // Administration</p>
+              <div class="team-social-row">
+                <span class="team-badge-tag">SIMATS &bull; SSE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Treasurer -->
+          <div class="team-card">
+            <div class="team-avatar-wrapper">
+              <img src="images/IMG-20260802-WA0047.jpg" alt="Treasurer Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 04</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill">TREASURER</span>
+              <h3 class="team-member-name">Club Treasurer</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">Finance &amp; Budget Lead</p>
+              <div class="team-social-row">
+                <span class="team-badge-tag">SIMATS &bull; SSE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Registration Head -->
+          <div class="team-card">
+            <div class="team-avatar-wrapper">
+              <img src="images/WhatsApp Image 2026-10-24 at 22.28.17.jpeg" alt="Registration Head Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 05</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill neon-text-blue">REGISTRATION HEAD</span>
+              <h3 class="team-member-name">Registration Head</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">Participant Intake &amp; Pass Allocation</p>
+              <div class="team-social-row">
+                <span class="team-badge-tag">SYNEX Desk</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Media Head -->
+          <div class="team-card">
+            <div class="team-avatar-wrapper">
+              <img src="images/member-events.jpg" alt="Media Head Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 06</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill">MEDIA HEAD</span>
+              <h3 class="team-member-name">Media &amp; Design Head</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">Creative Production &amp; Coverage</p>
+              <div class="team-social-row">
+                <span class="team-badge-tag">Design Studio</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. Technical Head -->
+          <div class="team-card card-glow-blue">
+            <div class="team-avatar-wrapper">
+              <img src="images/member-techlead.jpg" alt="Technical Head Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 07</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill neon-text-blue">TECHNICAL HEAD</span>
+              <h3 class="team-member-name">Technical Lead</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">Platform &amp; Evaluation Systems</p>
+              <div class="team-social-row">
+                <span class="team-badge-tag">Dev Core</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. Marketing Head -->
+          <div class="team-card">
+            <div class="team-avatar-wrapper">
+              <img src="images/member-advisor.jpg" alt="Marketing Head Photo" class="team-avatar-img">
+              <div class="avatar-badge-tag">LEAD 08</div>
+            </div>
+            <div class="team-card-content">
+              <span class="team-role-pill neon-text-orange">MARKETING HEAD</span>
+              <h3 class="team-member-name">Marketing &amp; Outreach Head</h3>
+              <p class="team-member-org">SIMATS Engineering AI Club</p>
+              <p class="team-member-meta">Sponsorship &amp; Inter-College Outreach</p>
+              <div class="team-social-row">
+                <span class="team-badge-tag">Campus Relations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- RULES & GUIDELINES SECTION -->
     <section class="section rules-section" id="rules" aria-labelledby="rules-title">
       <div class="container">
         <div class="section-badge">[ SPRINTER CODE OF CONDUCT ]</div>
-        <h2 class="section-title" id="rules-title">
-          Rules &amp; <span class="highlight-cyan">Eligibility</span>.
+        <h2 class="section-title neon-text-blue" id="rules-title">
+          Rules &amp; Eligibility.
         </h2>
         <p class="section-subtitle">
           Ensure fair play, technical integrity, and seamless collaboration during the 12-hour sprint.
@@ -551,8 +754,8 @@
     <section class="section faq-section" id="faq" aria-labelledby="faq-title">
       <div class="container">
         <div class="section-badge">[ FREQUENTLY ASKED ]</div>
-        <h2 class="section-title" id="faq-title">
-          Got <span class="highlight-cyan">Questions?</span>
+        <h2 class="section-title neon-text-blue" id="faq-title">
+          Got Questions?
         </h2>
         <p class="section-subtitle">
           Everything you need to know before stepping into the arena.
@@ -624,8 +827,8 @@
       <div class="container register-container">
         <div class="register-header text-center">
           <div class="section-badge">[ SQUAD APPLICATION ]</div>
-          <h2 class="section-title" id="register-title">
-            Register Your Team for <span class="highlight-cyan">SYNEX</span>.
+          <h2 class="section-title neon-text-blue" id="register-title">
+            Register Your Team for SYNEX.
           </h2>
           <p class="section-subtitle">
             Complete the official squad intake form below. Slots are strictly allocated based on submission review and project intent.
@@ -858,11 +1061,11 @@
       <div class="footer-top">
         <div class="footer-brand-col">
           <div class="footer-brand">
-            <img src="images/logo.png" alt="SYNEX Logo" width="36" height="36">
+            <img src="images/club-logo.jpg" alt="SIMATS AI Club Logo" class="footer-brand-img" width="44" height="44">
             <span class="footer-title">SYNEX // 2026</span>
           </div>
           <p class="footer-desc">
-            The 12-Hour Flagship AI Hackathon organized by the <strong>SIMATS Engineering AI Club</strong> at Saveetha School of Engineering (SSE), SIMATS, Saveetha University, Chennai.
+            The 12-Hour Flagship AI Hackathon organized by the <strong>SIMATS Engineering AI Club</strong> at Saveetha School of Engineering (SSE), SIMATS Deemed University, Chennai.
           </p>
           <div class="footer-socials">
             <a href="https://www.instagram.com/simats_ai_club" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
@@ -881,6 +1084,7 @@
             <li><a href="#tracks">Problem Arenas</a></li>
             <li><a href="#schedule">12-Hour Schedule</a></li>
             <li><a href="#prizes">Awards &amp; Perks</a></li>
+            <li><a href="#team">Organizing Team</a></li>
             <li><a href="#rules">Rules &amp; Eligibility</a></li>
             <li><a href="#register">Register Team</a></li>
           </ul>
@@ -888,6 +1092,10 @@
 
         <div class="footer-contact-col">
           <h4 class="footer-heading">Venue &amp; Host</h4>
+          <div class="footer-host-badges">
+            <img src="images/sse-logo.png" alt="SSE" width="30" height="30">
+            <img src="images/simats-logo.png" alt="SIMATS" width="30" height="30">
+          </div>
           <p class="venue-info">
             <strong>Saveetha School of Engineering (SSE)</strong><br>
             SIMATS Deemed University Campus<br>
